@@ -68,11 +68,11 @@ def test_update_course(client, user, course_factory):
 @pytest.mark.django_db
 def test_get_1_course(client, user, course_factory):
     course = course_factory(_quantity=1)
-    response = client.get(path='/api/v1/courses/')
+    response = client.get(path='/api/v1/courses/' + str(course[0].id) + '/')
     assert response.status_code == 200
     data = response.json()
-    for i, m in enumerate(data):
-        assert m['name'] == course[i].name
+    assert data['name'] == course[0].name
+    assert data['id'] == course[0].id
 
 
 @pytest.mark.django_db
